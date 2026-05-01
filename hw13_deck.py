@@ -46,7 +46,7 @@ class CardsDeck:
         for mast in Card.mast_list:
             for number in Card.number_list:
                 self.cards.append(Card(number, mast))
-                logger.debug('Added 1 card')
+                logger.debug(f'Added 1 card: {number} and {mast}')
         for joker in Card.jokers_list:
             self.cards.append(Card(joker, ''))
             logger.debug('Added joker')
