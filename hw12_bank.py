@@ -128,7 +128,7 @@ class CurrencyConverter:
 
         if amount < 0:
             logger.error('Amount %s is negative.', amount)
-            raise ValueError("Amount cannot be negative")
+            raise ValueError("Amount cannot be negative.")
 
         total_byn = amount * self.exchange_rates[currency]
         total_other = total_byn / self.exchange_rates[to_currency]
