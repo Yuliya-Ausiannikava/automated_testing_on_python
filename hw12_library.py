@@ -2,6 +2,16 @@
 A program to assist the library was written. Two classes were created.
 """
 
+import logging
+
+logger = logging.getLogger("my_logger")
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logger.setLevel(logging.DEBUG)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
 
 class Book:
 
@@ -12,34 +22,41 @@ class Book:
         self.author = author
         self.num_pages = num_pages
         self.isbn = isbn
+        logger.debug("Created book %s, author %s", book_name, author)
 
     def reserve(self, reader_name):
         if self.is_reserved_book is None and self.is_get_book is None:
             self.is_reserved_book = reader_name
-            print(f"The book '{self.book_name}' has been reserved by the user {reader_name.name}")
+            logger.info("The book '%s' has been reserved by the user %s",
+                        self.book_name, reader_name.name)
         else:
-            print('User can not reserve a book')
+            raise PermissionError('User can not reserve a book')
 
     def cancel_reserve(self, reader_name):
         if self.is_reserved_book == reader_name:
             self.is_reserved_book = None
-            print(f"The book '{self.book_name}' has been cancelled by the user {reader_name.name}")
+            logger.info("The book '%s' has been cancelled by the user %s",
+                        self.book_name, reader_name.name)
         else:
-            print(f"{reader_name.name} can not cancel a book, because he didn't reserve it")
+            raise PermissionError(f"{reader_name.name} can not cancel a book, "
+                                  f"because he didn't reserve it")
 
     def get_book(self, reader_name):
-        if (self.is_reserved_book == reader_name or
-                (self.is_get_book is None and self.is_reserved_book is None)):
+        if (self.is_get_book is None and
+                (self.is_reserved_book is None or self.is_reserved_book == reader_name)):
             self.is_get_book = reader_name
-            print(f"The book '{self.book_name}' was taken by reader {reader_name.name}")
+            self.is_reserved_book = None
+            logger.info("The book '%s' was taken by reader %s",
+                        self.book_name, reader_name.name)
         else:
-            print(f"{reader_name.name} can not get a book '{self.book_name}'")
+            raise PermissionError(f"{reader_name.name} can not get a book '{self.book_name}'")
 
     def return_book(self, reader_name):
         if self.is_get_book == reader_name:
             self.is_get_book = None
+            logger.info("The book '%s' was returned", self.book_name)
         else:
-            print(f"{reader_name.name} can not return a book '{self.book_name}', "
+            raise PermissionError(f"{reader_name.name} can not return a book '{self.book_name}', "
                   "because he didn't take it")
 
 
@@ -47,6 +64,7 @@ class Reader:
 
     def __init__(self, name):
         self.name = name
+        logger.debug("Created reader %s", name)
 
     def reserve_book(self, book):
         book.reserve(self)
