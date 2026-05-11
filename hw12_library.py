@@ -30,7 +30,8 @@ class Book:
             logger.info("The book '%s' has been reserved by the user %s",
                         self.book_name, reader_name.name)
         else:
-            raise PermissionError('User can not reserve a book')
+            raise PermissionError('User can not reserve a book. '
+                                  'Another reader has already taken this book.')
 
     def cancel_reserve(self, reader_name):
         if self.is_reserved_book == reader_name:
@@ -77,22 +78,3 @@ class Reader:
 
     def return_book(self, book):
         book.return_book(self)
-
-
-book1 = Book(book_name="The Hobbit", author="Books by J.R.R. Tolkien",
-             num_pages=400, isbn="0006754023")
-book2 = Book(book_name="A Good Year", author="Peter Mayle", num_pages=320, isbn="9785389173118")
-book3 = Book(book_name="Wuthering Heights", author="Emily Jane Brontë",
-             num_pages=416, isbn="9785171272029")
-
-VASYA = Reader("Vasya")
-PETYA = Reader("Petya")
-
-VASYA.reserve_book(book1)
-PETYA.reserve_book(book1)
-
-VASYA.cancel_reserve(book1)
-PETYA.reserve_book(book1)
-
-VASYA.get_book(book1)
-VASYA.return_book(book2)

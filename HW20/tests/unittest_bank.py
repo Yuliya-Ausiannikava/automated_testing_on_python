@@ -8,13 +8,24 @@ import logging
 import hw12_bank
 
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - '
-                                               '%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - '
+                                                '%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
 # Tests for the Bank class
 class TestBank(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        logging.disable(logging.CRITICAL)
+        logger.info("Starting Library App Tests")
+
+    @classmethod
+    def tearDownClass(cls):
+        logging.disable(logging.NOTSET)
+        logger.info("Ending Library App Tests")
+
     def setUp(self):
         logger.info("Setting up test environment")
         self.bank1 = hw12_bank.Bank()
@@ -40,7 +51,7 @@ class TestBank(unittest.TestCase):
 
         logger.debug("Attempting to register clients with the same ID should result in an error.")
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ValueError) as context:
             self.bank1.register_client(name='Katya', client_id='0001')
         self.assertEqual(str(context.exception), "Client with id 0001 already exists.")
         self.assertEqual(len(self.bank1.all_clients), 1)
@@ -209,6 +220,16 @@ class TestPerson(unittest.TestCase):
     def tearDown(self):
         logger.info("Tearing down test environment for Person tests")
 
+    @classmethod
+    def setUpClass(cls):
+        logging.disable(logging.CRITICAL)
+        logger.info("Starting Library App Tests")
+
+    @classmethod
+    def tearDownClass(cls):
+        logging.disable(logging.NOTSET)
+        logger.info("Ending Library App Tests")
+
     def test_create_person(self):
         logger.info("Creating a person")
 
@@ -225,6 +246,16 @@ class TestPerson(unittest.TestCase):
 
 # Tests for the CurrencyConverter class
 class TestConverter(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        logging.disable(logging.CRITICAL)
+        logger.info("Starting Library App Tests")
+
+    @classmethod
+    def tearDownClass(cls):
+        logging.disable(logging.NOTSET)
+        logger.info("Ending Library App Tests")
 
     def setUp(self):
         logger.info("Setting up test environment for Converter tests")
