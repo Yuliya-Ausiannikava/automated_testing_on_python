@@ -3,14 +3,10 @@ Test module for a banking application
 """
 
 import unittest
-import logging
-
 import hw12_bank
+from logging_config import get_logger
 
-
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - '
-                                                '%(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger("test_bank")
 
 
 # Tests for the Bank class
@@ -18,12 +14,10 @@ class TestBank(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        logging.disable(logging.CRITICAL)
         logger.info("Starting Library App Tests")
 
     @classmethod
     def tearDownClass(cls):
-        logging.disable(logging.NOTSET)
         logger.info("Ending Library App Tests")
 
     def setUp(self):
@@ -60,7 +54,16 @@ class TestBank(unittest.TestCase):
         logger.info("Duplicate clients registration test passed")
 
     def test_open_deposit(self):
-        logger.info("Testing opening deposit client")
+        logger.info("Testing the opening of a deposit account")
+
+        self.bank1.register_client(name='Yuliya', client_id='0001')
+        self.assertEqual(self.bank1.open_deposit_account(client_id='0001',
+                                                         start_balance=1000, years=1), True)
+
+        logger.info("Opening a deposit account test passed")
+
+    def test_open_deposit_multiple_users(self):
+        logger.info("Testing the opening of a deposit by several users")
 
         self.bank1.register_client(name='Yuliya', client_id='0001')
         self.bank1.register_client(name='Nastya', client_id='0002')
@@ -69,7 +72,7 @@ class TestBank(unittest.TestCase):
         self.assertEqual(self.bank1.open_deposit_account(client_id='0002',
                                                          start_balance=3000, years=2), True)
 
-        logger.info("Opening deposit client test passed")
+        logger.info("Opening deposit by several users test passed")
 
     def test_open_deposit_without_registration(self):
         logger.info("Testing opening deposit client without registration")
@@ -214,21 +217,20 @@ class TestBank(unittest.TestCase):
 
 # Tests for the Person class
 class TestPerson(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        logger.info("Starting Library App Tests")
+
+    @classmethod
+    def tearDownClass(cls):
+        logger.info("Ending Library App Tests")
+
     def setUp(self):
         logger.info("Setting up test environment for Person tests")
 
     def tearDown(self):
         logger.info("Tearing down test environment for Person tests")
-
-    @classmethod
-    def setUpClass(cls):
-        logging.disable(logging.CRITICAL)
-        logger.info("Starting Library App Tests")
-
-    @classmethod
-    def tearDownClass(cls):
-        logging.disable(logging.NOTSET)
-        logger.info("Ending Library App Tests")
 
     def test_create_person(self):
         logger.info("Creating a person")
@@ -249,12 +251,10 @@ class TestConverter(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        logging.disable(logging.CRITICAL)
         logger.info("Starting Library App Tests")
 
     @classmethod
     def tearDownClass(cls):
-        logging.disable(logging.NOTSET)
         logger.info("Ending Library App Tests")
 
     def setUp(self):

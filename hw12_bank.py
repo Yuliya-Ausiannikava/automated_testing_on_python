@@ -4,15 +4,9 @@ A class has been created for calculating profit from a bank deposit with monthly
 Classes for currency conversion have been created.
 """
 
-import logging
+from logging_config import get_logger
 
-logger = logging.getLogger("my_logger")
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger.setLevel(logging.DEBUG)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
+logger = get_logger("logger_bank_app")
 
 
 class Bank:

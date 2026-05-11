@@ -3,12 +3,11 @@ Test module for a library application
 """
 
 import unittest
-import logging
 import hw12_library
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - '
-                                                '%(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+from logging_config import get_logger
+
+logger = get_logger("test_lib")
 
 
 # Tests for the Book class
@@ -16,12 +15,10 @@ class TestLibraryApp(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        logging.disable(logging.CRITICAL)
         logger.info("Starting Library App Tests")
 
     @classmethod
     def tearDownClass(cls):
-        logging.disable(logging.NOTSET)
         logger.info("Ending Library App Tests")
 
     def setUp(self):
