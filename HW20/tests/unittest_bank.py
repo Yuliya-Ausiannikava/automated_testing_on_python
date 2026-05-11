@@ -18,7 +18,6 @@ class TestBank(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        logging.disable(logging.CRITICAL)
         logger.info("Starting Bank App Tests")
 
     @classmethod
