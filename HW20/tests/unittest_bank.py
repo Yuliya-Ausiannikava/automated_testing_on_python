@@ -18,7 +18,7 @@ class TestBank(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        logger.info("Ending Bank App Tests")
+        logger.info("Ending Bankc App Tests")
 
     def setUp(self):
         logger.info("Setting up test environment")
