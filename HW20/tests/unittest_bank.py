@@ -14,11 +14,11 @@ class TestBank(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        logger.info("Starting Library App Tests")
+        logger.info("Starting Bank App Tests")
 
     @classmethod
     def tearDownClass(cls):
-        logger.info("Ending Library App Tests")
+        logger.info("Ending Bank App Tests")
 
     def setUp(self):
         logger.info("Setting up test environment")
