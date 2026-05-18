@@ -416,7 +416,3 @@ def test_conversion_currency_negative_amount(conv):
     assert str(context.value) == "Amount cannot be negative."
 
     logger.info("Conversion of negative amount test passed")
-
-
-if __name__ == '__main__':
-    pytest.main()
