@@ -2,7 +2,7 @@ import pytest
 import hw12_library
 from logging_config import get_logger
 
-logger = get_logger("pytest library")
+logger = get_logger(__name__)
 
 
 @pytest.fixture(scope="function")
