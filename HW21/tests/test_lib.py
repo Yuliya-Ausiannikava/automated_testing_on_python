@@ -447,5 +447,3 @@ def test_return_book_not_take2(library):
     logger.info('Returning a book, that the user did not receive test passed')
 
 
-if __name__ == '__main__':
-    pytest.main()
