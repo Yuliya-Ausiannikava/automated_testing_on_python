@@ -24,6 +24,23 @@ exclude = [
 
 [tool.pylint.MASTER]
 init-hook = "import sys; sys.path.append('.')"
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "W0621",  # redefined-outer-name (нужно для pytest фикстур)
+    "W0613",  # unused-argument (параметры фикстур)
+    "C0413",  # wrong-import-position (после sys.path.insert)
+    "E0401",  # import-error (динамические пути)
+    "R0801",  # duplicate-code (в тестах допустимо)
+    "R0903",  # too-few-public-methods
+]
+
+[tool.pylint.FORMAT]
+max-line-length = 120
+
 argument-naming-style = "snake_case"
 variable-naming-style = "snake_case"
 function-naming-style = "snake_case"
@@ -64,6 +81,5 @@ exclude = [
     "venv",
     "tests"
 ]
-extend-ignore = [
-    "E501"
-]
+
+extend-ignore = ["E501", "E402"]
