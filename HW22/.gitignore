@@ -1,0 +1,37 @@
+# pytest
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# pytest-html отчеты
+*.html
+reports/
+test_reports/
+htmlcov/
+
+# pytest-coverage
+.coverage
+.coverage.*
+.coveragerc
+.xml
+.coverage.xml
+*.cover
+*.coverdata
+coverage.xml
+
+# pytest-х утилиты
+.vscode/
+.idea/
+
+# Логи
+logs/
+*.log
+
+# Временные файлы
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
