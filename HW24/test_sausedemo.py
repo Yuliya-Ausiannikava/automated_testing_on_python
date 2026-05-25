@@ -70,6 +70,7 @@ def test_add_to_cart(authoriz_page):
 
     logger.info("Adding product to cart test passed")
 
+
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.cart
