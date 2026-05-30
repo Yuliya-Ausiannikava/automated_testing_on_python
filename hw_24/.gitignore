@@ -8,7 +8,7 @@ __pycache__/
 # pytest-html отчеты
 *.html
 reports/
-test_reports/
+test-reports/
 htmlcov/
 
 # pytest-coverage
