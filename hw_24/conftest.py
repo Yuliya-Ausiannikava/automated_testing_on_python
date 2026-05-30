@@ -1,11 +1,15 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+
 from datetime import datetime
 import logging
 import os
-import sys
 import uuid
-from pathlib import Path
 import pytest
 from playwright.sync_api import Page
+
 from pages.login_page import Login
 from pages.product_page import Products
 from pages.cart_page import Cart
@@ -15,14 +19,20 @@ from pages.complete_page import Complete
 from test_data.users import User
 
 
+@pytest.fixture
+def logger():
+    return logging.getLogger(__name__)
+
+
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     now = datetime.now()
-    reports_dir = Path('test-reports')
+    reports_dir = Path(__file__).parent / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    report = reports_dir / f"Test_report_{now.strftime('%Y-%m-%d %H:%M:%S')}.html"
+    timestamp = now.strftime('%Y-%m-%d_%H-%M-%S')
+    report = reports_dir / f"Test_report_{timestamp}.html"
     logging.debug("Creating test report: %s", report)
-    config.option.htmlpath = report
+    config.option.htmlpath = str(report)
     config.option.self_contained_html = True
 
 

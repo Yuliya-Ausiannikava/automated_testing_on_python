@@ -1,6 +1,6 @@
 import pytest
 from playwright.sync_api import expect
-from ..test_data.prod_data import ProdData
+from test_data.prod_data import ProdData
 
 
 @pytest.mark.smoke
@@ -9,7 +9,7 @@ from ..test_data.prod_data import ProdData
 def test_add_item_to_cart(product_page, cart_page, logger):
     logger.info("Testing adding a product to the cart")
 
-    product_page.add_to_cart("Sauce Labs Backpack")
+    product_page.add_to_cart("backpack")
     logger.info("Product added to the cart")
     expect(product_page.cart_badge()).to_have_text("1")
 
@@ -17,9 +17,9 @@ def test_add_item_to_cart(product_page, cart_page, logger):
     logger.info("Redirected to the shopping cart page")
 
     expect(product_page.page).to_have_url("https://www.saucedemo.com/cart.html")
-    expect(cart_page.title).to_have_text("Your Cart")
+    expect(cart_page.title()).to_have_text("Your Cart")
     expect(cart_page.cart_list()).to_be_visible()
-    expect(cart_page.cart_item_by_id(ProdData.BACKPACK_ID)).to_be_visible()
+    expect(cart_page.cart_item_by_id(ProdData.BACKPACK_NUMB)).to_be_visible()
 
     logger.info("Adding product to cart test passed")
 
@@ -30,10 +30,10 @@ def test_add_item_to_cart(product_page, cart_page, logger):
 def test_add_item_to_cart2(product_page, cart_page, logger):
     logger.info("Testing adding multiple items to cart")
 
-    product_page.add_to_cart("Sauce Labs Backpack")
+    product_page.add_to_cart("backpack")
     logger.info("First product (Sauce Labs Backpack) added to the cart")
 
-    product_page.add_to_cart("Sauce Labs Bike Light")
+    product_page.add_to_cart("bike-light")
     logger.info("Second product (Sauce Labs Bike Light) added to the cart")
 
     expect(product_page.cart_badge()).to_have_text("2")
@@ -43,9 +43,9 @@ def test_add_item_to_cart2(product_page, cart_page, logger):
     logger.info("Redirected to the shopping cart page")
 
     expect(product_page.page).to_have_url("https://www.saucedemo.com/cart.html")
-    expect(cart_page.title).to_have_text("Your Cart")
+    expect(cart_page.title()).to_have_text("Your Cart")
     expect(cart_page.cart_list()).to_be_visible()
-    expect(cart_page.cart_item_by_id(ProdData.BACKPACK_ID)).to_be_visible()
-    expect(cart_page.cart_item_by_id(ProdData.BIKE_ID)).to_be_visible()
+    expect(cart_page.cart_item_by_id(ProdData.BACKPACK_NUMB)).to_be_visible()
+    expect(cart_page.cart_item_by_id(ProdData.BIKE_NUMB)).to_be_visible()
 
     logger.info("Adding multiple items to cart test passed")

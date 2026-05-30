@@ -1,7 +1,7 @@
 from playwright.sync_api import Page
-from base_page import BasePage
-from navbar_page import Navbar
-from ..test_data.checkout_data import CheckoutInfo
+from test_data.checkout_data import CheckoutInfo
+from .base_page import BasePage
+from .navbar_page import Navbar
 
 
 class CheckoutOne(BasePage):
@@ -30,9 +30,9 @@ class CheckoutOne(BasePage):
 
     # Actions on the Checkout page (step one)
     def fill_checkout_info(self):
-        self.first_name_input().fill(CheckoutInfo.FIRSTNAME)
-        self.last_name_input().fill(CheckoutInfo.LASTNAME)
-        self.postal_code_input().fill(CheckoutInfo.POSTCODE)
+        self.first_name().fill(CheckoutInfo.FIRSTNAME)
+        self.last_name().fill(CheckoutInfo.LASTNAME)
+        self.postal_code().fill(CheckoutInfo.POSTCODE)
 
     def click_continue(self):
         with self.page.expect_navigation():

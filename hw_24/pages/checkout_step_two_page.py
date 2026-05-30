@@ -1,6 +1,6 @@
 from playwright.sync_api import Page
-from base_page import BasePage
-from navbar_page import Navbar
+from .base_page import BasePage
+from .navbar_page import Navbar
 
 
 class CheckoutTwo(BasePage):

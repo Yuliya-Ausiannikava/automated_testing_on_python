@@ -1,6 +1,6 @@
 from playwright.sync_api import Page
-from base_page import BasePage
-from navbar_page import Navbar
+from .base_page import BasePage
+from .navbar_page import Navbar
 
 
 class Products(BasePage):
@@ -25,11 +25,11 @@ class Products(BasePage):
     def get_products_title_text(self):
         return self.products_title().inner_text()
 
-    def add_to_cart(self, product_name: str):
-        self.page.locator(f'[data-test="add-to-cart-sauce-labs-{product_name}"]').click()
+    def add_to_cart(self, item_id: str):
+        self.page.locator(f'[data-test="add-to-cart-sauce-labs-{item_id}"]').click()
 
-    def remove(self, product_name: str):
-        self.page.locator(f'[data-test="remove-{product_name}"]').click()
+    def remove(self, item_id: str):
+        self.page.locator(f'[data-test="remove-sauce_labs-{item_id}"]').click()
 
     def open_shopping_cart(self):
         with self.page.expect_navigation():
