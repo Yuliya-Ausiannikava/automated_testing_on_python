@@ -2,4 +2,4 @@ requests==2.32.3
 pytest==8.3.4
 jsonschema==4.26.0
 python-dotenv==1.0.1
-types-requests==2.33.0.20260518
+types-requests==2.31.0.6
