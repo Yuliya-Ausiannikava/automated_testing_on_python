@@ -1,5 +1,5 @@
 import requests
-from hw_28.settings import BASE_URL, DEFAULT_HEADERS, TIMEOUT
+from config.settings import BASE_URL, DEFAULT_HEADERS, TIMEOUT
 
 
 class HTTPClient:

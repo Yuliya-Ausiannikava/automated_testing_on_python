@@ -1,10 +1,14 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import pytest
 import requests
-from hw_28.utils.logger import logger
-from hw_28.utils.api.auth_api import AuthAPI
-from hw_28.utils.api.booking_api import BookingAPI
-from hw_28.utils.data_generator import get_valid_booking_data
-from hw_28.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
+from utils.logger import logger
+from utils.api.auth_api import AuthAPI
+from utils.api.booking_api import BookingAPI
+from utils.data_generator import get_valid_booking_data
+from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
 
 
 @pytest.fixture(scope="session")

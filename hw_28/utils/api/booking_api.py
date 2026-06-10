@@ -2,9 +2,9 @@
 Class for working with booking API
 """
 
-from hw_28.utils.logger import logger
-from hw_28.utils.clients.http_client import HTTPClient
-from hw_28.utils.routes import APIRoutes
+from utils.logger import logger
+from utils.clients.http_client import HTTPClient
+from utils.routes import APIRoutes
 
 
 class BookingAPI:

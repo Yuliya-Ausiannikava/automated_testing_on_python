@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hw_28"
+version = "1.0.0"
+dependencies = [
+    "requests==2.32.3",
+    "pytest==8.3.4",
+    "jsonschema==4.26.0",
+    "python-dotenv==1.0.1",
+    "types-requests==2.33.0.20260518"
+]

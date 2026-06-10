@@ -2,10 +2,9 @@
 Class for working with authentication API
 """
 
-from hw_28.utils.clients.http_client import HTTPClient
-from hw_28.utils.routes import APIRoutes
-from hw_28.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
-from hw_28.utils.logger import logger
+from utils.clients.http_client import HTTPClient
+from utils.logger import logger
+from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
 
 
 class AuthAPI:
@@ -25,7 +24,7 @@ class AuthAPI:
             "password": password
         }
 
-        return self.client.post(APIRoutes.AUTH, data)
+        return self.client.post('/auth', data)
 
     def get_token(self, username=None, password=None):
         response = self.auth(username, password)
