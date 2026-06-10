@@ -1,5 +1,6 @@
 """POST tests for bookings"""
 
+import pytest
 from utils.logger import logger
 from utils.assertions import assert_status_code, assert_json_schema, assert_response_has_key
 from utils.schemas.booking_schemas import CREATE_BOOKING_SCHEMA
@@ -9,6 +10,10 @@ from utils.data_generator import (get_valid_booking_data, get_invalid_booking_da
 
 class TestPostBookings:
     # Positive test: create booking with valid data
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.post
+    @pytest.mark.positive
     def test_create_booking_valid_data(self, booking_api):
         logger.info("Test: create booking with valid data")
 
@@ -27,6 +32,8 @@ class TestPostBookings:
         logger.info("Create booking with valid data test passed")
 
     # Negative test: create booking with invalid data
+    @pytest.mark.post
+    @pytest.mark.negative
     def test_create_booking_invalid_data(self, booking_api):
         logger.info("Test: create booking with invalid data")
 
@@ -39,6 +46,8 @@ class TestPostBookings:
         logger.info("Create booking with invalid data test passed")
 
     # Negative test: create booking without required fields
+    @pytest.mark.post
+    @pytest.mark.negative
     def test_create_booking_without_required_fields(self, booking_api):
         logger.info("Test: create booking without required fields")
 

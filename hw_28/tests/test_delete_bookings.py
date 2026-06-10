@@ -1,5 +1,6 @@
 """DELETE tests for bookings"""
 
+import pytest
 from utils.logger import logger
 from utils.assertions import assert_status_code
 from utils.data_generator import get_valid_booking_data
@@ -7,6 +8,10 @@ from utils.data_generator import get_valid_booking_data
 
 class TestDeleteBookings:
     # Positive test: delete booking
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.delete
+    @pytest.mark.positive
     def test_delete_booking(self, booking_api, auth_token):
         logger.info("Test: delete booking")
 
@@ -24,6 +29,8 @@ class TestDeleteBookings:
         logger.info("Deleted booking test passed")
 
     # Negative test: delete already deleted booking
+    @pytest.mark.delete
+    @pytest.mark.negative
     def test_delete_already_deleted_booking(self, booking_api, auth_token):
         logger.info("Test: delete already deleted booking")
 
@@ -43,6 +50,8 @@ class TestDeleteBookings:
         logger.info("Second deletion correctly returned error, test passed")
 
     # Negative test: DELETE without authorization
+    @pytest.mark.delete
+    @pytest.mark.negative
     def test_delete_booking_without_auth(self, booking_api):
         logger.info("Test: delete booking without auth token")
 

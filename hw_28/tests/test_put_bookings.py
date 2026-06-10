@@ -1,5 +1,6 @@
 """PUT tests for bookings"""
 
+import pytest
 from utils.logger import logger
 from utils.assertions import assert_status_code, assert_json_schema
 from utils.schemas.booking_schemas import BOOKING_SCHEMA
@@ -8,6 +9,10 @@ from utils.data_generator import get_updated_booking_data
 
 class TestPutBookings:
     # Positive test: full update of booking
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.put
+    @pytest.mark.positive
     def test_update_booking_full(self, booking_api, test_booking_id, auth_token):
         booking_id = test_booking_id
         logger.info("Test: full update of booking ID %s", booking_id)
@@ -24,6 +29,8 @@ class TestPutBookings:
         logger.info("Full update of booking test passed")
 
     # Negative test: update without auth token
+    @pytest.mark.put
+    @pytest.mark.negative
     def test_update_booking_without_auth(self, booking_api, test_booking_id):
         logger.info("Test: update booking without auth token")
 
@@ -35,6 +42,8 @@ class TestPutBookings:
         logger.info("Access denied without token (403), test passed")
 
     # Negative test: update non-existent booking
+    @pytest.mark.put
+    @pytest.mark.negative
     def test_update_nonexistent_booking(self, booking_api, auth_token):
         logger.info("Test: update non-existent booking")
 
