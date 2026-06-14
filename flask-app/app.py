@@ -10,6 +10,7 @@ images = [
     "https://media.tenor.com/lQlIBQeeruwAAAAd/wanted-cat.gif"
     ]
 
+
 @app.route('/')
 def index():
     url = random.choice(images)
