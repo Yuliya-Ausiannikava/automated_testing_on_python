@@ -1,5 +1,5 @@
 import pytest
-import hw12_library
+from hw_12 import hw12_library
 from logging_config import get_logger
 
 logger = get_logger(__name__)
@@ -81,14 +81,13 @@ def test_reader_creation(library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.reservation_book
-def test_book_reservation(mocker, library):
-    logger.info('Testing the successful reservation of one book (USE MOCK)')
+def test_book_reservation(library):
+    logger.info('Testing the successful reservation of one book')
 
     reader = library['reader1']
-    mock_book = mocker.Mock()
-
-    reader.reserve_book(mock_book)
-    mock_book.reserve.assert_called_once_with(reader)
+    book = library['book1']
+    reader.reserve_book(book)
+    assert book.is_reserved_book == reader
 
     logger.debug('The books are reserved')
     logger.info('Testing reserve book successful test passed')
@@ -97,18 +96,17 @@ def test_book_reservation(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.reservation_book
-def test_books_reservation_multiple(mocker, library):
-    logger.info('Testing the successful reservation of several books by one reader (use MOCK)')
+def test_books_reservation_multiple(library):
+    logger.info('Testing the successful reservation of several books by one reader')
 
     reader_1 = library['reader1']
     reader_2 = library['reader2']
-    mock_book1 = mocker.Mock()
-    mock_book2 = mocker.Mock()
-
-    reader_1.reserve_book(mock_book1)
-    reader_2.reserve_book(mock_book2)
-    mock_book1.reserve.assert_called_once_with(reader_1)
-    mock_book2.reserve.assert_called_once_with(reader_2)
+    book_1 = library['book1']
+    book_2 = library['book2']
+    reader_1.reserve_book(book_1)
+    reader_2.reserve_book(book_2)
+    assert book_1.is_reserved_book == reader_1
+    assert book_2.is_reserved_book == reader_2
 
     logger.debug('The books are reserved')
     logger.info('Checking the reservations of different books by different readers was successful')
@@ -117,16 +115,16 @@ def test_books_reservation_multiple(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.reservation_book
-def test_diff_books_reservation_one_reader(mocker, library):
+def test_diff_books_reservation_one_reader(library):
     logger.info('Testing the reservation of different books by one reader')
 
     reader_1 = library['reader1']
-    mock_book1 = mocker.Mock()
-    mock_book2 = mocker.Mock()
-    reader_1.reserve_book(mock_book1)
-    reader_1.reserve_book(mock_book2)
-    mock_book1.reserve.assert_called_once_with(reader_1)
-    mock_book2.reserve.assert_called_once_with(reader_1)
+    book_1 = library['book1']
+    book_2 = library['book2']
+    reader_1.reserve_book(book_1)
+    reader_1.reserve_book(book_2)
+    assert book_1.is_reserved_book == reader_1
+    assert book_2.is_reserved_book == reader_1
 
     logger.debug('The books are reserved')
     logger.info('Checking the reservations of different books by one reader was successful')
@@ -197,15 +195,14 @@ def test_taken_book_reservation(library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.cancel_reservation
-def test_cancel_reservation(mocker, library):
-    logger.info('Testing the cancel reservation of a book (use MOCK)')
+def test_cancel_reservation(library):
+    logger.info('Testing the cancel reservation of a book')
 
     reader_1 = library['reader1']
-    mock_book = mocker.Mock()
-
-    reader_1.reserve_book(mock_book)
-    reader_1.cancel_reserve(mock_book)
-    mock_book.cancel_reserve.assert_called_once_with(reader_1)
+    book_1 = library['book1']
+    reader_1.reserve_book(book_1)
+    reader_1.cancel_reserve(book_1)
+    assert book_1.is_reserved_book is None
 
     logger.info('Testing the cancel reservation of a book test passed')
 
@@ -252,15 +249,15 @@ def test_cancel_reservation_without_reservation(library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.receiving_book
-def test_get_book(mocker, library):
-    logger.info('Testing the successful receipt of one book by one user (use MOCK)')
+def test_get_book(library):
+    logger.info('Testing the successful receipt of one book by one user')
 
     reader_1 = library['reader1']
-    mock_book = mocker.Mock()
-
-    reader_1.reserve_book(mock_book)
-    reader_1.get_book(mock_book)
-    mock_book.get_book.assert_called_once_with(reader_1)
+    book_1 = library['book1']
+    reader_1.reserve_book(book_1)
+    reader_1.get_book(book_1)
+    assert book_1.is_reserved_book is None
+    assert book_1.is_get_book == reader_1
 
     logger.info('Testing the successful receipt of one book test passed')
 
@@ -268,20 +265,21 @@ def test_get_book(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.receiving_book
-def test_get_book_multiple(mocker, library):
-    logger.info('Testing the successful receipt of different books by different users (use MOCK)')
+def test_get_book_multiple(library):
+    logger.info('Testing the successful receipt of different books by different users')
 
     reader_1 = library['reader1']
     reader_2 = library['reader2']
-    mock_book_1 = mocker.Mock()
-    mock_book_2 = mocker.Mock()
-
-    reader_1.reserve_book(mock_book_1)
-    reader_2.reserve_book(mock_book_2)
-    reader_1.get_book(mock_book_1)
-    reader_2.get_book(mock_book_2)
-    mock_book_1.get_book.assert_called_once_with(reader_1)
-    mock_book_2.get_book.assert_called_once_with(reader_2)
+    book_1 = library['book1']
+    book_2 = library['book2']
+    reader_1.reserve_book(book_1)
+    reader_2.reserve_book(book_2)
+    reader_1.get_book(book_1)
+    reader_2.get_book(book_2)
+    assert book_1.is_reserved_book is None
+    assert book_1.is_get_book == reader_1
+    assert book_2.is_reserved_book is None
+    assert book_2.is_get_book == reader_2
 
     logger.info('Testing the successful receipt of different book test passed')
 
@@ -289,19 +287,20 @@ def test_get_book_multiple(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.receiving_book
-def test_diff_get_book_one_reader(mocker, library):
-    logger.info('Testing the successful receipt of multiple books by one user (use MOCK)')
+def test_diff_get_book_one_reader(library):
+    logger.info('Testing the successful receipt of multiple books by one user')
 
     reader_1 = library['reader1']
-    mock_book_1 = mocker.Mock()
-    mock_book_2 = mocker.Mock()
-
-    reader_1.reserve_book(mock_book_1)
-    reader_1.reserve_book(mock_book_2)
-    reader_1.get_book(mock_book_1)
-    reader_1.get_book(mock_book_2)
-    mock_book_1.get_book.assert_called_once_with(reader_1)
-    mock_book_2.get_book.assert_called_once_with(reader_1)
+    book_1 = library['book1']
+    book_2 = library['book2']
+    reader_1.reserve_book(book_1)
+    reader_1.reserve_book(book_2)
+    reader_1.get_book(book_1)
+    reader_1.get_book(book_2)
+    assert book_1.is_reserved_book is None
+    assert book_1.is_get_book == reader_1
+    assert book_2.is_reserved_book is None
+    assert book_2.is_get_book == reader_1
 
     logger.info('Testing the successful receipt of of multiple books by one user test passed')
 
@@ -354,16 +353,15 @@ def test_get_book_received_another_user(library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.return_book
-def test_return_book(mocker, library):
-    logger.info('Testing the successfully return of a book (use MOCK)')
+def test_return_book(library):
+    logger.info('Testing the successfully return of a book')
 
     reader_1 = library['reader1']
-    mock_book = mocker.Mock()
-
-    reader_1.reserve_book(mock_book)
-    reader_1.get_book(mock_book)
-    reader_1.return_book(mock_book)
-    mock_book.return_book.assert_called_once_with(reader_1)
+    book_1 = library['book1']
+    reader_1.reserve_book(book_1)
+    reader_1.get_book(book_1)
+    reader_1.return_book(book_1)
+    assert book_1.is_get_book is None
 
     logger.info('Return of the book test passed')
 
@@ -371,23 +369,21 @@ def test_return_book(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.return_book
-def test_return_books_multiple(mocker, library):
-    logger.info('Testing the success of returning different books by different users (use MOCK)')
+def test_return_books_multiple(library):
+    logger.info('Testing the success of returning different books by different users')
 
     reader_1 = library['reader1']
     reader_2 = library['reader2']
-    mock_book_1 = mocker.Mock()
-    mock_book_2 = mocker.Mock()
-
-    reader_1.reserve_book(mock_book_1)
-    reader_2.reserve_book(mock_book_2)
-    reader_1.get_book(mock_book_1)
-    reader_2.get_book(mock_book_2)
-    reader_1.return_book(mock_book_1)
-    reader_2.return_book(mock_book_2)
-
-    mock_book_1.return_book.assert_called_once_with(reader_1)
-    mock_book_2.return_book.assert_called_once_with(reader_2)
+    book_1 = library['book1']
+    book_2 = library['book2']
+    reader_1.reserve_book(book_1)
+    reader_2.reserve_book(book_2)
+    reader_1.get_book(book_1)
+    reader_2.get_book(book_2)
+    reader_1.return_book(book_1)
+    reader_2.return_book(book_2)
+    assert book_1.is_get_book is None
+    assert book_2.is_get_book is None
 
     logger.info('Return of different books by different users test passed')
 
@@ -395,21 +391,21 @@ def test_return_books_multiple(mocker, library):
 @pytest.mark.smoke
 @pytest.mark.regression
 @pytest.mark.return_book
-def test_return_diff_books_one_reader(mocker, library):
-    logger.info('Testing the successful return of different books by one user (use MOCK)')
+def test_return_diff_books_one_reader(library):
+    logger.info('Testing the successful return of different books by one user')
 
     reader_1 = library['reader1']
-    mock_book_1 = mocker.Mock()
-    mock_book_2 = mocker.Mock()
+    book_1 = library['book1']
+    book_2 = library['book2']
 
-    reader_1.reserve_book(mock_book_1)
-    reader_1.reserve_book(mock_book_2)
-    reader_1.get_book(mock_book_1)
-    reader_1.get_book(mock_book_2)
-    reader_1.return_book(mock_book_1)
-    reader_1.return_book(mock_book_2)
-    mock_book_1.return_book.assert_called_once_with(reader_1)
-    mock_book_2.return_book.assert_called_once_with(reader_1)
+    reader_1.reserve_book(book_1)
+    reader_1.reserve_book(book_2)
+    reader_1.get_book(book_1)
+    reader_1.get_book(book_2)
+    reader_1.return_book(book_1)
+    reader_1.return_book(book_2)
+    assert book_1.is_get_book is None
+    assert book_2.is_get_book is None
 
     logger.info('Return of different books by one user test passed')
 
@@ -449,3 +445,5 @@ def test_return_book_not_take2(library):
                                   "because he didn't take it")
 
     logger.info('Returning a book, that the user did not receive test passed')
+
+

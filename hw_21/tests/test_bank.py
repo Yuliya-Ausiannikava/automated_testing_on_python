@@ -1,5 +1,5 @@
 import pytest
-import hw12_bank
+from hw_12 import hw12_bank
 from logging_config import get_logger
 
 logger = get_logger(__name__)

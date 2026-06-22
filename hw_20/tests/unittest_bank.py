@@ -3,7 +3,7 @@ Test module for a banking application
 """
 
 import unittest
-import hw12_bank
+from hw_12 import hw12_bank
 
 from logging_config import get_logger
 
